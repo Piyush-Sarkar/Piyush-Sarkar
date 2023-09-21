@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define MAX 10
-int stack_arr[MAX];
-int top = -1;
+#define max 10
+int stack[max];
+int top=-1;
 //void push(int item);
 //int pop();
 //int peek();
@@ -11,61 +11,61 @@ int top = -1;
 //void display();
 void push(int item)
 {
-    if( isFull() )
+    if(isFull())
     {
         printf("\nStack Overflow\n");
         return;
     }
-    top = top+1;
-    stack_arr[top] = item;
+    top=top+1;
+    stack[top]=item;
 }
 int pop()
 {
     int item;
-    if( isEmpty() )
+    if(isEmpty())
     {
         printf("\nStack Underflow\n");
         exit(1);
     }
-    item = stack_arr[top];
-    top = top-1;
+    item=stack[top];
+    top=top-1;
     return item;
 }
 int peek()
 {
-    if( isEmpty() )
+    if(isEmpty())
     {
         printf("\nStack Underflow\n");
         exit(1);
     }
-    return stack_arr[top];
+    return stack[top];
 }
 int isEmpty()
 {
-	if( top == -1 )
+	if(top==-1)
         return 1;
     else
         return 0;
 }
 int isFull()
 {
-    if( top == MAX-1 )
+    if(top==max-1)
         return 1;
     else
         return 0;
 }
 void display()
 {
-        int i;
-        if( isEmpty() )
-        {
-            printf("\nStack is empty\n");
-            return;
-        }
- 		printf("\nStack elements :\n\n");
-        for(i=top;i>=0;i--)
-            printf(" %d\n", stack_arr[i] );
-        printf("\n");
+    int i;
+    if( isEmpty() )
+    {
+        printf("\nStack is empty\n");
+        return;
+    }
+	printf("\nStack elements :\n\n");
+    for(i=top;i>=0;i--)
+        printf(" %d\n", stack_arr[i] );
+    printf("\n");
 }
 void main()
 {
