@@ -95,5 +95,5 @@ void main()
             case 5:exit(1);
             default:printf("\nWrong choice\n");      
         }
-	}
+     }
 }
