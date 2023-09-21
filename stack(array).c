@@ -64,7 +64,7 @@ void display()
     }
 	printf("\nStack elements :\n\n");
     for(i=top;i>=0;i--)
-        printf(" %d\n", stack_arr[i] );
+        printf(" %d\n", stack[i] );
     printf("\n");
 }
 void main()
@@ -95,5 +95,5 @@ void main()
             case 5:exit(1);
             default:printf("\nWrong choice\n");      
         }
-     }
+	}
 }
