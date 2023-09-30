@@ -147,7 +147,6 @@ int main(){
 			case 6:delete_beginning();
 				   break;
 			case 7:delete_last();
-			displa
 			       break;
 			case 8:printf("Enter the item to be deleted: ");
 				   scanf("%d",&item);
