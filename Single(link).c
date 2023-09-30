@@ -69,9 +69,9 @@ void delete_beginning(){
 	ptr=head;
 	if(head==NULL)
 		return;
-	else
+	else{
 		head=head->next;
-	free(ptr);
+		free(ptr);
 	}
 	printf("\nThe list after deleting first item is: ");
 	display();
@@ -126,7 +126,7 @@ int main(){
 				   break;
 			case 2:printf("Enter the item to be inserted: ");
 				   scanf("%d",&item);
-				   insert_beginning(item);
+				   insert_beg(item);
 				   break;
 			case 3:printf("Enter the item to be inserted: ");
 				   scanf("%d",&item);
