@@ -1,3 +1,4 @@
+
 #include<stdio.h>
 #include<stdlib.h>
 struct node{
@@ -20,18 +21,19 @@ void display(){
 		printf("%d->",temp->data);
 		temp=temp->next;
 	}
+	printf("%d",temp->data);
 }
 void insert_beg(int item){
+	new_node=createnode(item);
 	if(head==NULL){
-		new_node->prev=new_node;
 		head=new_node;
+		new_node->prev=new_node;
+		new_node->next=head;
 	}
 	else{
-		ptr=head;
-		while(ptr->next!=head)
-			ptr=ptr->next;
 		new_node->next=head;
-		(head->prev)->next=head->prev;
+		head->prev->next=new_node;
+		new_node->prev=head->prev;
 		head->prev=new_node;
 		head=new_node;
 	}
@@ -41,88 +43,97 @@ void insert_beg(int item){
 void insert_end(int item){
 	new_node=createnode(item);
 	if(head==NULL){
-		new_node->prev=new_node;
-		new_node->next=new_node;
 		head=new_node;
+		new_node->prev=new_node;
+		new_node->next=head;
 	}
-	else{
-		new_node=head->prev;
-		(head->prev)->next=new_node;
+	else{	
+		head->prev->next=new_node;
 		new_node->next=head;
 		head->prev=new_node;
-	}
 	printf("The new list after insertion is: ");
 	display();
 }
-void insert_before(int val,int item){
-	new_node=createnode(item);
-	if(head==NULL){
-		printf("Empty list");
-		return;
-	}
-	ptr=head;
-	if(head->data==val){
-		insert_beg(item);
-		return;
-	}
-	do{
-		ptr=ptr->next;
-	}while(ptr!=head && ptr->data!=val);
-	if(ptr==head){
-		printf("Node doesn't exist");
-		return;
-	}
-	new_node->next=ptr;
-	new_node->prev=ptr->prev;
-	ptr->prev->next=new_node;
-	ptr->prev=new_node;
-	printf("The new list after insertion is: ");
-	display();
 }
-void insert_after(int val,int item){
-	new_node=createnode(item);
-	if(head==NULL)
-		printf("Empty list");
-	else
-		ptr=head;
-	do{
-		ptr=ptr->next;
-	}while(ptr!=head && ptr->data!=val);
-	if(ptr==head){
-		printf("Node doesn't exist");
-		return;
-	}
-	new_node->prev=ptr;
-	new_node->next=ptr->next;
-	ptr->next=new_node;
-	printf("The new list after insertion is: ");
-	display();
+void insert_before(int val, int item) {
+    new_node = createnode(item);
+    if (head == NULL) {
+        printf("Empty list");
+        return;
+    }
+    ptr = head;
+    while (ptr->data != val) {
+        ptr = ptr->next;
+        if (ptr == head) {
+            printf("Node doesn't exist");
+            return;
+        }
+    }
+    new_node->next = ptr;
+    new_node->prev = ptr->prev;
+    ptr->prev->next = new_node;
+    ptr->prev = new_node;
+    printf("The new list after insertion is: ");
+    display();
+}
+void insert_after(int val, int item) {
+    new_node = createnode(item);
+    if (head == NULL) {
+        printf("Empty list");
+        return;
+    }
+    ptr = head;
+    while (ptr->data != val) {
+        ptr = ptr->next;
+        if (ptr == head) {
+            printf("Node doesn't exist");
+            return;
+        }
+    }
+    new_node->prev = ptr;
+    new_node->next = ptr->next;
+    ptr->next->prev = new_node;
+    ptr->next = new_node;
+    printf("The new list after insertion is: ");
+    display();
 }
 void delete_beg(){
 	if(head==NULL){
 		printf("Empty list");
 		return;
 	}
+	if (head->next == head) {
+		free(head);
+        head = NULL;
+    } 
+    else{
 	(head->prev)->next=head->next;
 	(head->next)->prev=head->prev;
 	del=head;
 	head=head->next;
 	free(del);
 	printf("The new list after deletion is: ");
+}
 	display();
 }
-void delete_last(){
-	if(head==NULL){
-		printf("Empty list");
-		return;
-	}
-	((head->prev)->prev)->next=head;
-	head->prev=(head->prev)->prev;
-	del=head->prev;
-	head->prev=head->prev->next;
-	free(del);
-	printf("The new list after deletion is: ");
-	display();
+void delete_last() {
+    if (head == NULL) {
+        printf("Empty list");
+        return;
+    }
+
+    if (head->next == head) {
+        free(head);
+        head = NULL;
+    } else {
+        temp = head->prev;  
+        head->prev = temp->prev;        
+        temp->prev->next = head;        
+        free(temp);                     
+    }
+
+    printf("The new list after deletion is: ");
+    display();  
 }
 void delete_node(int val){
 	if(head==NULL){
@@ -130,9 +141,10 @@ void delete_node(int val){
 		return;
 	}
 	ptr=head;
-	if(ptr->data==val)
+	if(ptr->data==val){
 		delete_beg();
-	else{
+		return;
+	}
 		while(ptr->data!=val){
 			ptr=ptr->next;
 			if(ptr==head){
@@ -143,9 +155,42 @@ void delete_node(int val){
 		ptr->prev->next=ptr->next;
 		ptr->next->prev=ptr->prev;
 		free(ptr);
-	}
 	printf("The new list after deletion is: ");
 	display();
+}
+void delete_before(int val) {
+	if(ptr->data==val)
+		delete_last();
+	else{
+		while(ptr->data!=val)	
+			ptr=ptr->next;
+		temp=ptr->prev;
+		if(temp==head)
+			delete_beg();
+		else
+		{
+			ptr->prev=temp->prev;
+			temp->prev->next=ptr;
+		}
+		free(temp);
+	}
+    printf("The new list after deletion is: ");
+    display();
+}
+void delete_after(int val) {
+    ptr = head;
+    while (ptr->data != val) {
+        ptr = ptr->next;
+    temp=ptr->next;
+    if (temp == head) 
+		delete_beg();
+	else{
+		ptr->next = temp->next;
+    	(temp->next)->prev = ptr;
+    	free(temp);
+	}
+    printf("The new list after deletion is: ");
+    display();
 }
 int main(){
 	int option,item,val;
@@ -160,7 +205,9 @@ int main(){
 		printf("\n 6:Delete a node from beginning");
 		printf("\n 7:Delete a node at the end");
 		printf("\n 8.Delete a given node");
-		printf("\n 9.Exit");
+		printf("\n 9: Delete before a given node");
+        printf("\n 10: Delete after a given node");
+        printf("\n 11: Exit");
 		printf("\n Enter your option: ");
 		scanf("%d",&option);
 		switch(option)
@@ -195,7 +242,17 @@ int main(){
 				   scanf("%d",&item);
 				   delete_node(item);
 				   break;
+			case 9:
+                printf("Enter the value before which you want to delete: ");
+                scanf("%d", &val);
+                delete_before(val);
+                break;
+            case 10:
+                printf("Enter the value after which you want to delete: ");
+                scanf("%d", &val);
+                delete_after(val);
+                break;
 		}
-	}while(option!=9);
+	}while(option!=11);
 	return 0;
 }
