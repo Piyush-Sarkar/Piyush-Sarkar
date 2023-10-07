@@ -32,25 +32,34 @@ void insert_beg(int item){
 void insert_end(int item){
 	ptr=createnode(item);
 	ptr->next=NULL;
+	temp=head;
 	if(head==NULL){
 		head=ptr;
 	}
-	while(temp->next!=NULL){
-		temp=temp->next;
+	else{
+		while(temp->next!=NULL){
+			temp=temp->next;
+		}
+		temp->next=ptr;
 	}
-	temp->next=ptr;
 	printf("\nThe new list after insertion is:");
 	display();
 }
 void insert_before(int val,int item){
 	new_node=createnode(item);
 	ptr=head;
-	while(ptr->data!=val){
-		preptr=ptr;
-		ptr=ptr->next;
+	if(head==NULL){
+		printf("empty list");
+		return;
 	}
-	preptr->next=new_node;
-	new_node->next=ptr;
+	else{
+		while(ptr->data!=val){
+			preptr=ptr;
+			ptr=ptr->next;
+		}
+		new_node->next=ptr;
+		preptr->next=new_node;
+	}
 	printf("\nThe new list after insertion is:");
 	display();
 }
@@ -71,7 +80,7 @@ void delete_beginning(){
 		return;
 	else{
 		head=head->next;
-		free(ptr);
+	free(ptr);
 	}
 	printf("\nThe list after deleting first item is: ");
 	display();
@@ -80,7 +89,7 @@ void delete_last(){
 	ptr=head;
 	if(head==NULL)
 		printf("\nEmpty list");
-	else
+	else{
 		while((ptr->next)->next!=NULL){
 			ptr=ptr->next;
 		}
@@ -88,6 +97,7 @@ void delete_last(){
 	free(ptr->next);
 	printf("\nThe list after deleting last item is:");
 	display();
+}
 }
 void delete_node(int item){
 	ptr=head;
